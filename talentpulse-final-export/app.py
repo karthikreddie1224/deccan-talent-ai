@@ -62,6 +62,29 @@ with st.expander("⚙️ Dashboard Controls & Filters", expanded=False):
     uploaded_file = st.file_uploader("Upload Candidates CSV", type=["csv"], help="Upload a custom CSV. Otherwise, we'll use the default mock database.", label_visibility="collapsed")
     candidates_df = load_data(uploaded_file)
     
+    # Safely handle missing columns to prevent KeyErrors
+    req_cols = ["Name", "Role", "Skills", "Experience"]
+    missing = [c for c in req_cols if c not in candidates_df.columns]
+    if missing:
+        st.error(f"⚠️ **Error:** Uploaded CSV is missing required columns: {', '.join(missing)}. Please update your CSV file.")
+        st.stop()
+        
+    optional_cols = {
+        "Location": "Not specified", 
+        "Risk Flag": "", 
+        "Recommended Action": "", 
+        "Current Company": "Not specified", 
+        "Availability": "Unknown", 
+        "Notice Period": "Unknown", 
+        "Response": "", 
+        "Response2": ""
+    }
+    for col, default_val in optional_cols.items():
+        if col not in candidates_df.columns:
+            candidates_df[col] = default_val
+            
+    candidates_df["Experience"] = pd.to_numeric(candidates_df["Experience"], errors="coerce").fillna(0)
+    
     st.markdown("---")
     c1, c2, c3 = st.columns(3)
     with c1:
