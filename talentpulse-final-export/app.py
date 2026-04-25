@@ -7,6 +7,7 @@ import io
 
 from engine import JobParser, Matcher, OutreachSimulator
 from styles import PREMIUM_CSS
+from column_mapper import FlexibleCSVParser
 
 # ─────────────────────────────────────────────────────────────
 # Page Config
@@ -60,13 +61,14 @@ st.markdown("""
 with st.expander("⚙️ Dashboard Controls & Filters", expanded=False):
     st.markdown("**📂 Upload Custom Candidate Data**")
     uploaded_file = st.file_uploader("Upload Candidates CSV", type=["csv"], help="Upload a custom CSV. Otherwise, we'll use the default mock database.", label_visibility="collapsed")
-    candidates_df = load_data(uploaded_file)
+    raw_df = load_data(uploaded_file)
     
-    # Safely handle missing columns to prevent KeyErrors
-    req_cols = ["Name", "Role", "Skills", "Experience"]
-    missing = [c for c in req_cols if c not in candidates_df.columns]
-    if missing:
-        st.error(f"⚠️ **Error:** Uploaded CSV is missing required columns: {', '.join(missing)}. Please update your CSV file.")
+    # Safely handle missing columns, aliases, and typos
+    parser = FlexibleCSVParser()
+    try:
+        candidates_df = parser.parse_and_map(raw_df)
+    except ValueError as e:
+        st.error(f"⚠️ **Data Error:** {e}")
         st.stop()
         
     optional_cols = {
