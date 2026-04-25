@@ -64,9 +64,9 @@ with st.expander("⚙️ Dashboard Controls & Filters", expanded=False):
     raw_df = load_data(uploaded_file)
     
     # Safely handle missing columns, aliases, and typos
-    parser = FlexibleCSVParser()
+    csv_parser = FlexibleCSVParser()
     try:
-        candidates_df = parser.parse_and_map(raw_df)
+        candidates_df = csv_parser.parse_and_map(raw_df)
     except ValueError as e:
         st.error(f"⚠️ **Data Error:** {e}")
         st.stop()
