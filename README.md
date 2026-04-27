@@ -4,7 +4,7 @@ Catalyst Hackathon 2025 | Built for Deccan AI
 TalentPulse automates end-to-end recruiter workflows: paste a Job Description, and the agent discovers matching candidates, simulates conversational outreach, scores genuine interest via sentiment analysis, and delivers an immediately actionable, ranked shortlist — all without any external API calls.
 
 🚀 Live Demo
-https://deccan-talent-ai-agent.streamlit.app (deploy URL)
+https://deccan-talent-ai-agent.streamlit.app (deploy URL)*
 
 📸 Screenshots
 Hero & JD Input	Parsed Skills	Quadrant Chart	Ranked Shortlist
