@@ -8,7 +8,7 @@ TalentPulse automates end-to-end recruiter workflows: paste a Job Description, a
 
 ## 🚀 Live Demo
 
-> **[https://talentpulse.streamlit.app](https://talentpulse.streamlit.app)** *(deploy URL)*
+> https://deccan-talent-ai-agent.streamlit.app (deploy URL)*
 
 ---
 
